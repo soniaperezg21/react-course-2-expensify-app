@@ -1,0 +1,137 @@
+<!-- 
+ -   Instalar yarn: npm install -g yarn   (si no deja ver la version, abrir como administrador power shell y ejecutar Set-ExecutionPolicy Unrestricted
+ -     , volver a instalar, Reiniciar el equipo y checar la versión live-server -v
+ -   Live-server instalar   npm install -g live-server   revisar con live-server -v
+ -   Levantar live-Serv : live-server public   (Debe abrir un tab en el browser http://127.0.0.1:8080/  y ver el archivo index.html)
+-  babeljs.io : Es un compiler para convertir a de next-gen Javascript to browser-compatible Javascript
+- yarn global add babel-cli  Da acceso a command line interface (si no quiere hacerlo con nmp install -g babel-cli)
+-   babel --help   para ver la ayuda y si fue instalado bien
+- instalar dependencias :  yarn init   Set el proyecto para que use yarn  (enter en todo, se puede poner el autor)
+   Verificar todo en package.json file
+- Agregar dependencias react:  yarn add babel-preset-react babel-preset-env (debe cambiar package.json y genera archivos en node_modules).
+      o usar                  npm install --save-dev  babel-preset-env babel-preset-react
+- Revisar archivo en raiz yarn.lock, ahí están lo instalado y sus dependencias(No cambiar se actualiza automar)
+Si por algo se eliminó node_modules reinstalar dependencias:   yarn install
+- 
+- Generar dir scr y dentro archivo app.js (en este vamos a teclar el código react de la app, el archivo dentro scripts es código autogenerado y transformaciones babel)
+- Especificar path scompilar y donde dejar:     
+   npx babel src/app.js  --out-file=public/scripts/app.js --presets=babel-preset-env,babel-preset-react 
+
+- npx babel src/app.js  --out-file=public/scripts/app.js --presets=babel-preset-env,babel-preset-react --watch  esparavercambios
+- abrir otra terminal ir al directoriio del proyecto  y levantar:    live-server public   
+- Siempre para correr enn una pantalla va el npx y en otra levantar live-server pubic
+- npx babel src/app.js  --out-file=public/scripts/app.js --presets=babel-preset-env,babel-preset-react --watch  esparavercambios
+- Eventos de React: usar la pag de synthetic  https://facebook.github.io/react/docs/events.html#/form-events
+- DEBUG buscar reac dev tools en explorador: instalar extensión se va a ver que agrega Components y profiler
+- Para que un array function no se confunda con las llaves de la función y las llaves del objeto se pone entre parentesis
+- Local storage permanece entre paginas pero solo guarda strings
+- WEBPACK: Para organizar JS. Poder tener un archivo en varios que se pueden modificar.
+-   Tomar de otros archivos y ponerlos disponibles, pueden ser componentes.  Y puede tomar dependencias de npm.
+- No es bueno instalar cosas global: Es mejor que cada proyecto use sus propias versión
+-Eliminar las dependecias: yarn global remove babel-cli live-server o con npm unintall -g babel-cli live-server (segun sea el caso)
+- SI trato de ejecutar: babel va a dar error  live-server public
+- Instalarlos localmente:  yarn add live-server babel-cli   o npm install live-server  (todavia no tengo babel)
+- Si noo quiere ejecutar powershell como administrador y desde ahí
+- AHora hay que poner la dependecia en package.json manualmente
+-  Eliminar "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+- Agregar antes de "dependencies"
+   "scripts": {
+    "serve": "live-server public/",
+    "build-babel": "npx babel src/app.js  --out-file=public/scripts/app.js --presets=babel-preset-env,babel-preset-react --watch"
+  },  
+- correr con el script de serve:    yarn run serve  o npm run serve  <- es para no dar "live-server public/
+- en otra terminar yarn run build   para no ejecutar la linea larga
+- WEBPACK: Instalar: En una terminal shutdown todo ctrl_c   yarn add webpack
+- en package.json agregar "build": "webpack",    
+- en el directorio raiz el proyecto generar archivo webpack.config.js
+- Webpack documentacion   webpack.js.org
+- validator: importar   yarn add validator después en el documento import validator from 'validator'
+- Instalar react-dom: yarn add react react-dom  después hacer el import en el app.js
+- instalar babel core (permite correr babel desde tools como WebPack:  YARN ADD babel-core babel-loader
+  Configurar en webpack.config.js
+- Generar otro archivo en la raiz que se llame .babelrc (para los comandos presets que ponemos en el command line)  
+- Devtool: cheap-module-eval-source-map (Nos dice donde fue el error y su archivo) En webpack.config.js se configura
+- webpack devServer: (instalar locally en terminal) yarn add webpack-dev-server
+-   devServer.contentBase: decirle donde encontrar los archivos (public folder en este caso). en webpack.config.js se cofigura
+-  una vez configurado a no necesitamos levantar live-server ahora va a ser yarn run dev-server
+- Si  las versiones dan problema Delete package-lock.json file. Change following in package.json. "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.0",  "webpack-dev-server": "^3.11.0" a y despues correr npm install
+- Ya no se van a necesitar solo yarn run dev-server es más rápido
+- Instalar  Babel individul plugin(no un preset que es conjunto de plug-ins) yarn add babel-plugin-transform-class-properties 
+- hay que configurarla en .babelrc    "plugins": [
+        "transform-class-properties"
+    ] y volver a levantar yarn run dev-server
+- (sirve para que las clases no se tengan que instanciar como objeto, checar index.html old and new syntax con key value pairs con = 
+  -no se necesita binding y ni tampoco el constructor
+- React MODEL: Instalar  yarn add react-modal  y yarn run dev-server  vamos a trabajar con el archivo OptionModal.js
+- css-loader: ayuda a webpack a usar los css
+- style-loader: Adds css to tje dom by injection a style  yarn add style-loader css-loader
+-    agregarlos wn webpack.config.css y nuevo archivo styles.css    imporatlo en app.js  yarn run dev-serv   
+- SCSS: usar 2 tools: New loader para compilar scss y el compilador.   cambiar en webpack.config el css por scss, renombrar styles.css a styles.scss y el import en app.js
+        importar equiv a babel-loader y babel-core:  yarn add sass-loader node-sass y agregarlos en webpack.config
+  -en lugar de toner todos en styles.scss vamos a repartirlo generar folder base bajo styles y generar archivo _base.scss
+   e importarlo desde styles.scss. agregar folder components bajo styles y agregar archivo _header.scss y aplicar la clase en header.js
+- Normalize CSS: libreria para normalizar estilo ene todos los browsers  yarn add normalize.css importarla en app.js 
+   debemos cambiar ebpack.config para que acepte archivos css también test: /\.s?css$/,
+- buscar en explorer sass function: ahí existe darken, saturate, etc.
+- favicon va en el tab del explorer va en el head de esta página en el link del head (es este caso es un circulo morado)
+- React Router: web: react-router buscar github reposity (vamos a usar el web)
+    Instalación  yarn add react-router-dom   yarn run dev-server, importarlo en add.js
+       browser-router (create a new route)   y  route(for every single page)
+       -Para que no de error la ruta  create (que no existe), hay que cambiar webpack.conf
+    -para decirle que se mande index.html cuando haya error 404 historyApiFallback: true
+    -Para que no muestre lo de / y lo del create hay que poner la propiedad exact
+ -Route swith para que sea como un case el route y pueda mandar la pag cuando no se cumple ninguna
+ - Router Link: es como un href pero no se va al servidor lo maneja el client.  
+ - Router NavLink: es como Link pero con extras funcionalidades: activeClassName permite agregar una clase  activeClassName="is_active"
+   , hay que agregar esa clase en _base.scss  .is_active  
+   -Usamos link en lugar de <a> para que no se vaya al server 
+- REDUX: redux.js.org  Instalar  yarn add redux  reiniciar con yard run dev-server
+- En webpack.config.js se especifica el js a correr.
+- nom uuid: Universal unique identifier: yarn add uuid. Para generar id tipo mongodb id
+- Para que los objetos acepten spread ... (babel object spread operator buscar en explorer)  editar .babelrc
+    en terminal yarn add babel-plugin-transform-object-rest-spread (instalar las dependencias necesarios)
+    en .babelrc   línea "transform-object-rest-spread"  y otra vez yarn run dev-server
+- Siempre en el webpack.config se le dice cual es el js principal
+- Instalar react-redux: vamos a usar <Provider store> una vez y connect :  yarn add react-redux 
+- Regular expresion seite regex101.com 
+- moment.js: Manipulate and format time.   airbnb/react dates   examples for date picker
+  yarn add moment react-dates react-addons-shallow-compare   , luego importarla  y volver a levantar yarn run dev-server
+- redux developer tools extension: buscar en chrome  redux developer tools y oprimir botón de AñadirAChrome
+  Del sitio https://github.com/zalmoxisus/redux-devtools-extension de basic store
+   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+   en configureStore.js
+- React Date Picker:  DateRangePicker   StartofTime
+- Jest: testing of FB:  google jest testing (facebook.github...): yarn add jest (no es buena practica instalar globaly)
+  editar package.json   "test": "jest"   agregar líneas en .babelrc  
+    - en terminal  yarn run test ó yarn test (es lo mismo)
+    -generar carpeta tests debajo src , importante que los archiov terminen es .test.js  
+   --Corer con watch:     yarn test -- --watch    (-- es relacionado con yarn los siguientes -- son asociados con jest)
+      (si no se deja poner yarn test -- --watchAll ) 
+   -Setear jest en watch mode (Para no levantarlo cada vez que compilemos, siempre corrra): cambiar package.json   
+     generar archiov expenses.tst.js
+    -Arreglar Error test  Cannot use import statement outside a module:  
+      yarn add --dev babel-jest
+
+
+  --> 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- le decimos que use el ancho del dispositivo -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Expensify</title>
+        <link rel="icon" type="image/png" href="/images/favicon.png"  />
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="/bundle.js"></script>
+       <!-- <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+        <script src="/scripts/app.js"></script>  -->
+
+    </body>
+</html>
