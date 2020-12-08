@@ -3,3 +3,5 @@ public/bundle.js
 public/bundle.js.map
 public/styes.css
 public/styes.css.map
+.env.test
+.end.development
