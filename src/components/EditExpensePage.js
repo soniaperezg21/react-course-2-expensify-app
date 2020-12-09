@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
-import { editExpense, removeExpense } from '../actions/expenses';
+import { startEditExpense, startRemoveExpense } from '../actions/expenses';
 //import { useParams } from 'react-router-dom';
 
 //Refactor EditExpensePage to be a class based component (los textos on submit onRemove los subo acá)
@@ -9,11 +9,11 @@ export class EditExpensePage extends React.Component {
     onSubmit = (expense) => {
         //Dispatch the action to edit expense/Redirect to dashboard
         //Ya no llamo al dispatch sino a mapDispatchToProps
-        this.props.editExpense(this.props.expense.id, expense);  //escribe la expense llamando a addexpense
+        this.props.startEditExpense(this.props.expense.id, expense);  //escribe la expense llamando a addexpense
         this.props.history.push('/'); //Me envia al dashboard 
     };
     onRemove = () => {
-        this.props.removeExpense({ id: this.props.expense.id });
+        this.props.startRemoveExpense({ id: this.props.expense.id });
         this.props.history.push('/'); //Me envia al dashboard                
     };
     render() {
@@ -37,8 +37,8 @@ const mapStateToProps = (state, props) => ({
 });
 //mapDispatchToProps. La documentación google react redux
 const mapDispatchToProps = (dispatch, props ) => ({
-   editExpense: (id, expense) => dispatch(editExpense(id, expense)),
-   removeExpense: (data) => dispatch(removeExpense(data))
+   startEditExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
+   startRemoveExpense: (data) => dispatch(startRemoveExpense(data))
 });
 
 
