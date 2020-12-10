@@ -1,5 +1,6 @@
 //import * as firebase from 'firebase';  //Con el * me traigo todo  (DA ERROR EN ESTA VERSION)
-import firebase from "firebase"
+import firebase from "firebase";
+
 
 //<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 
@@ -17,9 +18,10 @@ import firebase from "firebase"
   firebase.initializeApp(firebaseConfig);
 
   const database = firebase.database();
-  
+  const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
   //Export firebase y database
-  export { firebase, database as default };
+  export { firebase, googleAuthProvider, database as default };
 
   
 

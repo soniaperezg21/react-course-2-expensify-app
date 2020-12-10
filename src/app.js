@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import AppRouter from './routers/AppRouter';
+import AppRouter, { history } from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import { startSetExpenses } from './actions/expenses';
-import { setTextFilter } from './actions/filters';
+import { login, logout } from './actions/auth';
 import getVisibleExpenses from './selectors/expenses';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
-import './firebase/firebase';
+import { firebase } from './firebase/firebase';
 
 
 
@@ -36,12 +36,38 @@ const jsx = (
     </Provider>
     
 );
+let hasRendered = false;
+const renderApp = () => {
+    if (!hasRendered) {
+        ReactDOM.render(jsx, document.getElementById('app'));
+        hasRendered = true;
+    }
+};
+
 //Load a message 
 ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
-store.dispatch(startSetExpenses()).then (() => {
-    ReactDOM.render(jsx, document.getElementById('app'));
-});
 
+//Cuando cambia de autenticado a no autenticado (dispatch porque son asyncronos)
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        //Mando la acción
+        store.dispatch(login(user.uid));
+        console.log('uid', user.uid);  
+        //Solo si está firmado muestro la app en dashboard
+        store.dispatch(startSetExpenses()).then (() => {
+            renderApp();
+            if (history.location.pathname === '/') { //Si está en login lo manda al dashboard
+                history.push('dashboard');
+            }
+        });
+                
+    } else {
+        store.dispatch(logout());
+        //console.log('log out');
+        renderApp();
+        history.push('/');  //Lo manda a la página principal
+    }
+});
 
 /* es lo que teniamos en el index.html
 <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
