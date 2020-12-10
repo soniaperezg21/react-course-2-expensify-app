@@ -7,7 +7,7 @@ import { startLogout } from '../actions/auth';
 export const Header = ({ startLogout }) => (
     <header>
         <h1>Expensify</h1>
-        <NavLink to="/" activeClassName="is_active" exact={true}>Dashboard</NavLink>
+        <NavLink to="/dashboard" activeClassName="is_active">Dashboard</NavLink>
         <NavLink to="/create" activeClassName="is_active">Create Expense</NavLink>
         <NavLink to="/help" activeClassName="is_active">Help</NavLink>
         <button onClick={startLogout}>Logout</button>
@@ -18,3 +18,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(undefined, mapDispatchToProps)(Header);
+
